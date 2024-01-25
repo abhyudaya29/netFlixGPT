@@ -3,13 +3,15 @@ import Header from './Header';
 import { checkValidateData } from '../utils/Validate';
 import {  createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/fireBase';
-
+// import {toast} from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [isSignIn, setisSignIn] = useState(true);
   const [errorMessage, seterrorMessage] = useState('');
   const email = useRef('');
   const password = useRef('');
   const userName = useRef('');
+  const navigate=useNavigate()
 
   const handleButtonClick = () => {
     const message = checkValidateData(email.current.value, password.current.value, userName.current.value);
@@ -23,6 +25,7 @@ const Login = () => {
         // Signed up 
         const user = userCredential.user;
         console.log(user,"sign Up")
+        
         // ...
       })
       .catch((error) => {
@@ -31,6 +34,7 @@ const Login = () => {
         seterrorMessage(errorCode +"-"+errorMessage)
         // ..
       });
+
     
       
       
@@ -44,6 +48,7 @@ const Login = () => {
         const user = userCredential.user;
         // ...
         console.log(user,"regesterd user")
+        navigate('/browse')
       })
       .catch((error) => {
         const errorCode = error.code;
