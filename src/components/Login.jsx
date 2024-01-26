@@ -5,6 +5,9 @@ import {  createUserWithEmailAndPassword,signInWithEmailAndPassword } from "fire
 import { auth } from '../utils/fireBase';
 // import {toast} from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
+import {toast} from 'react-hot-toast'
+
 const Login = () => {
   const [isSignIn, setisSignIn] = useState(true);
   const [errorMessage, seterrorMessage] = useState('');
@@ -12,6 +15,7 @@ const Login = () => {
   const password = useRef('');
   const userName = useRef('');
   const navigate=useNavigate()
+  const [loading,setloading]=useState(false)
 
   const handleButtonClick = () => {
     const message = checkValidateData(email.current.value, password.current.value, userName.current.value);
@@ -19,19 +23,28 @@ const Login = () => {
     if(message) return
     // otherwise sign In or Sin Up
     // for signUp logic
+    setloading(true)
     if(!isSignIn){
+      
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
       .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
+
         console.log(user,"sign Up")
+        navigate('/browse')
+        setloading(false)
         
+        toast.success("User Created Successfully");
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         seterrorMessage(errorCode +"-"+errorMessage)
+        setloading(false)
+        toast.error("Error in user Creation");
+        
         // ..
       });
 
@@ -49,11 +62,15 @@ const Login = () => {
         // ...
         console.log(user,"regesterd user")
         navigate('/browse')
+        toast.success('Welcome to Browse')
+        setloading(false)
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         seterrorMessage(errorCode + "-"+ errorMessage)
+        setloading(false)
+        toast.error('Error in user SignIn')
       });
 
     }
@@ -108,12 +125,14 @@ const Login = () => {
 
           <p className='errorMessage text-red-500'>{errorMessage}</p>
 
-          <button
+          <Button 
             onClick={handleButtonClick}
-            className='w-full bg-red text-white font-semibold p-3 md:p-4 rounded-lg hover:bg-red-700'
+            // type='primary'
+            loading={loading}
+            className='w-full h-full bg-red text-white font-semibold p-3 md:p-4 rounded-lg hover:bg-red-700'
           >
             {isSignIn ? 'Sign In' : 'Sign Up'}
-          </button>
+          </Button>
 
           <div className='flex items-center my-2'>
             <input type='checkbox' />
