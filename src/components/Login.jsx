@@ -7,7 +7,7 @@ import { auth } from '../utils/fireBase';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 import {toast} from 'react-hot-toast'
-
+import {  updateProfile } from "firebase/auth";
 const Login = () => {
   const [isSignIn, setisSignIn] = useState(true);
   const [errorMessage, seterrorMessage] = useState('');
@@ -17,62 +17,40 @@ const Login = () => {
   const navigate=useNavigate()
   const [loading,setloading]=useState(false)
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     const message = checkValidateData(email.current.value, password.current.value, userName.current.value);
     seterrorMessage(message);
-    if(message) return
-    // otherwise sign In or Sin Up
-    // for signUp logic
-    setloading(true)
-    if(!isSignIn){
-      
-      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        // Signed up 
+    if (message) return;
+
+    setloading(true);
+
+    try {
+      if (!isSignIn) {
+        const userCredential = await createUserWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = userCredential.user;
 
-        console.log(user,"sign Up")
-        navigate('/browse')
-        setloading(false)
-        
+        await updateProfile(user, {
+          displayName: user.current.value,
+          photoURL: "https://avatars.githubusercontent.com/u/90976445?v=4"
+        });
+
+        navigate('/browse');
+        setloading(false);
         toast.success("User Created Successfully");
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        seterrorMessage(errorCode +"-"+errorMessage)
-        setloading(false)
-        toast.error("Error in user Creation");
-        
-        // ..
-      });
-
-    
-      
-      
-
-    }
-    else{
-      // 
-      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        // Signed in 
+      } else {
+        const userCredential = await signInWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = userCredential.user;
-        // ...
-        console.log(user,"regesterd user")
-        navigate('/browse')
-        toast.success('Welcome to Browse')
-        setloading(false)
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        seterrorMessage(errorCode + "-"+ errorMessage)
-        setloading(false)
-        toast.error('Error in user SignIn')
-      });
 
+        navigate('/browse');
+        toast.success('Welcome to Browse');
+        setloading(false);
+      }
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      seterrorMessage(errorCode + "-" + errorMessage);
+      setloading(false);
+      toast.error('Error in user operation');
     }
   };
 

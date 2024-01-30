@@ -26,8 +26,8 @@ const Body = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // if user Sign Up
-        const{uid,email,displayName}=user;
-        dispatch(addUser({uid:uid,email:email,displayName:displayName}))
+        const{uid,email,displayName,photoURL}=user;
+        dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
         // if user SignUp then take him/her to browse page
         // navigate('/browse')
 
