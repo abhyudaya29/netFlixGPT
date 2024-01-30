@@ -40,6 +40,7 @@ const Login = () => {
       } else {
         const userCredential = await signInWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = userCredential.user;
+        // 
 
         navigate('/browse');
         toast.success('Welcome to Browse');
