@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 import {toast} from 'react-hot-toast'
 import {  updateProfile } from "firebase/auth";
+import { addUser } from '../utils/userSlice';
+import { useDispatch } from 'react-redux';
+import { USER_AVTAR } from '../utils/constants';
 const Login = () => {
   const [isSignIn, setisSignIn] = useState(true);
   const [errorMessage, seterrorMessage] = useState('');
@@ -16,6 +19,7 @@ const Login = () => {
   const userName = useRef('');
   const navigate=useNavigate()
   const [loading,setloading]=useState(false)
+  const dispatch=useDispatch()
 
   const handleButtonClick = async () => {
     const message = checkValidateData(email.current.value, password.current.value, userName.current.value);
@@ -26,20 +30,30 @@ const Login = () => {
 
     try {
       if (!isSignIn) {
+        // user creation
         const userCredential = await createUserWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = userCredential.user;
 
+
         await updateProfile(user, {
           displayName: user.current.value,
-          photoURL: "https://avatars.githubusercontent.com/u/90976445?v=4"
+          photoURL: USER_AVTAR
+        }).then(()=>{
+          const{uid,email,displayName,photoURL}=auth.currentUser
+          dispatch(addUser({
+            uid:uid,
+            email:email,
+            displayName:displayName,
+            photoURL:photoURL}))
         });
 
-        navigate('/browse');
+        // navigate('/browse');
         setloading(false);
         toast.success("User Created Successfully");
       } else {
         const userCredential = await signInWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = userCredential.user;
+        console.log(user,'>>user')
         // 
 
         navigate('/browse');
@@ -51,6 +65,7 @@ const Login = () => {
       const errorMessage = error.message;
       seterrorMessage(errorCode + "-" + errorMessage);
       setloading(false);
+      navigate('/')
       toast.error('Error in user operation');
     }
   };
@@ -76,7 +91,7 @@ const Login = () => {
           }}
           className='w-full md:w-3/4 lg:w-1/2 xl:w-1/3 absolute p-4 md:p-8 text-white bg-opacity-75 rounded-lg shadow-md my-16 mx-auto right-0 left-0 bg-black'
         >
-          <h2 className='text-xl md:text-2xl font-bold mb-4'>
+          <h2 className='text-xl md:text-2xl font-bold mb-6'>
             {isSignIn ? 'Sign In' : 'Sign Up'}
           </h2>
 
