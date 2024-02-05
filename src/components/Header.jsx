@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Button, Dropdown } from "antd";
 import { signOut } from "firebase/auth";
 import { auth } from '../utils/fireBase';
 import { useDispatch, useSelector } from "react-redux";
@@ -65,10 +65,12 @@ const Header = () => {
         {user ? (
           <div className="flex p-2">
             <img className="w-12 h-12 rounded-full" src={user.photoURL} alt="User icon" />
-            <Button className="ml-2 bg-red" onClick={handleSignout}>
+            <Button className="ml-2 bg-red font-bold text-black" onClick={handleSignout}>
               Sign Out
             </Button>
-            {/* <p>Welcome:{user.displayName}</p> */}
+            <div className="pt-20">
+            <p className=" font-bold text-black">Welcome:{user.displayName}</p>
+            </div>
           </div>
         ):(null)}
       </div>

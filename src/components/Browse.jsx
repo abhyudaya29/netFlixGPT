@@ -5,6 +5,8 @@ import { auth } from '../utils/fireBase';
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 
 
 const Browse = () => {
@@ -12,6 +14,18 @@ const Browse = () => {
   return (
     <>
     <Header/>
+    <MainContainer/>
+    <SecondaryContainer/>
+    {/* {
+
+      Main Conatiner
+        -Video Background
+        -Video Title
+      Secondary Container
+        -MovieList *n
+          -Cards *n
+
+    } */}
     </>
   );
 }

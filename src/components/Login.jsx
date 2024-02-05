@@ -31,12 +31,14 @@ const Login = () => {
     try {
       if (!isSignIn) {
         // user creation
-        const userCredential = await createUserWithEmailAndPassword(auth, email.current.value, password.current.value);
+        const userCredential = await createUserWithEmailAndPassword(auth, email.current.value, password.current.value,userName.current.value);
+        console.log(email,password,userName,">>infooo")
         const user = userCredential.user;
+        console.log(user,">>>userrrr")
 
 
         await updateProfile(user, {
-          displayName: user.current.value,
+          displayName: userName.current.value,
           photoURL: USER_AVTAR
         }).then(()=>{
           const{uid,email,displayName,photoURL}=auth.currentUser
