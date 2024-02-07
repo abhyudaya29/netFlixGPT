@@ -65,8 +65,9 @@ const Header = () => {
         {user ? (
           <div className="flex p-2">
             <img className="w-12 h-12 rounded-full" src={user.photoURL} alt="User icon" />
-            <Button className="ml-2 bg-red font-bold text-black" onClick={handleSignout}>
+            <Button className="ml-2 bg-red font-bold text-white" onClick={handleSignout}>
               Sign Out
+              
             </Button>
             <div className="pt-20">
             <p className=" font-bold text-black">Welcome:{user.displayName}</p>
