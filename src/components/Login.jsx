@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useRef, useState } from 'react';
 import Header from './Header';
 import { checkValidateData } from '../utils/Validate';
@@ -11,15 +12,18 @@ import {  updateProfile } from "firebase/auth";
 import { addUser } from '../utils/userSlice';
 import { useDispatch } from 'react-redux';
 import { USER_AVTAR } from '../utils/constants';
+import LoadingBar from 'react-top-loading-bar';
 const Login = () => {
   const [isSignIn, setisSignIn] = useState(true);
   const [errorMessage, seterrorMessage] = useState('');
+  const [progress,setProgress] = useState(0);
   const email = useRef('');
   const password = useRef('');
   const userName = useRef('');
   const navigate=useNavigate()
   const [loading,setloading]=useState(false)
   const dispatch=useDispatch()
+
 
   const handleButtonClick = async () => {
     const message = checkValidateData(email.current.value, password.current.value, userName.current.value);
@@ -55,6 +59,9 @@ const Login = () => {
       } else {
         const userCredential = await signInWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = userCredential.user;
+        <LoadingBar color="#f11946" progress={progress}
+    onLoaderFinished={() => setProgress(0)} />
+
         console.log(user,'>>user')
         // 
 
