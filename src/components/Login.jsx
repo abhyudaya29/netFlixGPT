@@ -36,9 +36,9 @@ const Login = () => {
       if (!isSignIn) {
         // user creation
         const userCredential = await createUserWithEmailAndPassword(auth, email.current.value, password.current.value,userName.current.value);
-        console.log(email,password,userName,">>infooo")
+        // console.log(email,password,userName,">>infooo")
         const user = userCredential.user;
-        console.log(user,">>>userrrr")
+        // console.log(user,">>>userrrr")
 
 
         await updateProfile(user, {
@@ -62,7 +62,7 @@ const Login = () => {
         <LoadingBar color="#f11946" progress={progress}
     onLoaderFinished={() => setProgress(0)} />
 
-        console.log(user,'>>user')
+        // console.log(user,'>>user')
         // 
 
         navigate('/browse');
@@ -88,7 +88,7 @@ const Login = () => {
       <Header />
       <div className='absolute'>
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/16006346-87f9-4226-bc25-a1fb346a2b0c/9662d0fd-0547-4665-b887-771617268815/IN-en-20240115-popsignuptwoweeks-perspective_alpha_website_small.jpg"
+          src={BG_URL}
           alt="background image"
         />
       </div>

@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom";
-import { Button, Dropdown } from "antd";
+import { Button } from "antd";
 import { signOut } from "firebase/auth";
 import { auth } from '../utils/fireBase';
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +11,15 @@ import {  onAuthStateChanged } from "firebase/auth";
 // import { useDispatch } from 'react-redux'
 import { addUser} from '../utils/userSlice'
 import { LOGO } from "../utils/constants";
+import { toggleGptSearchView } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../utils/languageConstants";
+import { changeLanguage } from "../utils/configSlice";
+
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((state)=>state.user);
   const dispatch=useDispatch()
+  const showGptSearch=useSelector((store)=>(store.gpt.showGptSearch))
 
   useEffect(()=>{
    const unSubscribe= onAuthStateChanged(auth, (user) => {
@@ -57,6 +63,13 @@ const Header = () => {
         navigate('/error', { state: { errorMessage: "An error occurred during sign-out. Please try again." } });
       });
   };
+  const handleGptSearch=()=>{
+    dispatch(toggleGptSearchView())
+  }
+  const handleLanguageChange=(e)=>{
+    // console.log(e.target.value)
+    dispatch(changeLanguage(e.target.value))
+  }
 
   return (
     <>
@@ -64,6 +77,11 @@ const Header = () => {
         <img className="w-44" src={LOGO} alt="Netflix logo" />
         {user ? (
           <div className="flex p-2">
+            {/* when showGpt is true then only select box will be shown */}
+           {showGptSearch && <select onChange={handleLanguageChange}>
+              {SUPPORTED_LANGUAGES.map((lang)=>(<option key={lang.identifier} value={lang.identifier}>{lang.name}</option>))}
+            </select>}
+            <button className="py-2 px-4 m-2 text-white bg-purple-500 rounded-lg w-100 h-50" onClick={handleGptSearch}>{showGptSearch?('Home'):('GPT Search')}</button>
             <img className="w-12 h-12 rounded-full" src={user.photoURL} alt="User icon" />
             <Button className="ml-2 bg-red font-bold text-white" onClick={handleSignout}>
               Sign Out

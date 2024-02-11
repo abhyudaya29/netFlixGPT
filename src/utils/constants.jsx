@@ -11,3 +11,4 @@ export const API_OPTIONS={
   };
 
 export const IMG_CDN="https://image.tmdb.org/t/p/w200"
+export const BG_URL="https://wallpapers.com/images/hd/netflix-background-gs7hjuwvv2g0e9fj.jpg"

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { API_OPTIONS } from "../utils/constants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addTrailervideo } from "../utils/movieSlice";
 
 const useMovieTrailer=(movie_id)=>{
@@ -12,14 +12,14 @@ const useMovieTrailer=(movie_id)=>{
       API_OPTIONS
     );
     const resposne = await data.json();
-    console.log(resposne);
+    // console.log(resposne);
     const filterMovies = resposne.results.filter(
       (video) => video.type === "Trailer"
     );
-    console.log(filterMovies, ">>filterMovies");
+    // console.log(filterMovies, ">>filterMovies");
     // if there is a trailer then take the 1st trailer or then take the  first video
     const trailer = filterMovies.length ? filterMovies[0] : resposne.results[0];
-    console.log(trailer, "trailer1111");
+    // console.log(trailer, "trailer1111");
     dispatch(addTrailervideo(trailer))}
     useEffect(()=>{
         getMovieVideos()

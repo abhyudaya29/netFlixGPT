@@ -3,7 +3,7 @@
 // import { auth } from '../utils/fireBase';
 // import { useNavigate } from "react-router-dom";
 // import Header from "./Header";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { API_OPTIONS } from "../utils/constants";
 import { addNowPlayingMovies } from "../utils/movieSlice";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ const useNowPlayingMovies = () => {
       API_OPTIONS
     );
     const json = await data.json();
-    console.log(json.results);
+    // console.log(json.results);
     dispatch(addNowPlayingMovies(json.results));
   };
   useEffect(() => {
