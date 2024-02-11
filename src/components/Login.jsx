@@ -13,6 +13,7 @@ import { addUser } from '../utils/userSlice';
 import { useDispatch } from 'react-redux';
 import { USER_AVTAR } from '../utils/constants';
 import LoadingBar from 'react-top-loading-bar';
+import { BG_URL } from '../utils/constants';
 const Login = () => {
   const [isSignIn, setisSignIn] = useState(true);
   const [errorMessage, seterrorMessage] = useState('');
@@ -86,8 +87,8 @@ const Login = () => {
   return (
     <>
       <Header />
-      <div className='absolute'>
-        <img
+      <div className='fixed'>
+        <img className='h-screen object-cover w-screen'
           src={BG_URL}
           alt="background image"
         />

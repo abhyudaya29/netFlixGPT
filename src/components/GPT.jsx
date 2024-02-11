@@ -8,13 +8,14 @@ const GPT = () => {
   return (
     // <div>GPTSearch</div>
     <>
-    <div className='absolute -z-10'>
-        <img
+    <div className="fixed -z-10">
+    <img className="h-screen object-coverv w-screen"
           src={BG_URL}
           alt="background image"
         />
-      </div>
-    <div><GptSearchBar/></div>
+    </div>
+   
+    <div className=" "><GptSearchBar/></div>
     <div><GptMovieSuggestions/></div>
     </>
   )
