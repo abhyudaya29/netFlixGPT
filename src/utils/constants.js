@@ -13,9 +13,7 @@ export const IMG_CDN = "https://image.tmdb.org/t/p/w200";
 export const BG_URL = "https://wallpapers.com/images/hd/netflix-background-gs7hjuwvv2g0e9fj.jpg";
 
 // Use correct import based on framework:
-export const OPEN_AI_KEY =
-  // For Vite:
-  import.meta.env.VITE_REACT_APP_OPENAI_KEY
+export const OPEN_AI_KEY =import.meta.env.VITE_REACT_APP_OPENAI_KEY
   // OR
   // For Create React App:
   // process.env.REACT_APP_OPENAI_KEY;

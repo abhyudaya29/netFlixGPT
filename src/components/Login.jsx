@@ -59,7 +59,7 @@ const Login = () => {
         toast.success("User Created Successfully");
       } else {
         const userCredential = await signInWithEmailAndPassword(auth, email.current.value, password.current.value);
-        const user = userCredential.user;
+        const user = userCredential.user;     
         <LoadingBar color="#f11946" progress={progress}
     onLoaderFinished={() => setProgress(0)} />
 
